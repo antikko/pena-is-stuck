@@ -1,0 +1,1 @@
+"""Package containing maze backend."""
