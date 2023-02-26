@@ -14,18 +14,28 @@ def main() -> None:
     data_to_block_type_map = {
         "#": BlockType.SOLID, "E": BlockType.EXIT, "^": BlockType.START, " ": BlockType.OPEN
     }
+
+    # Create factories and maze object.
     block_factory = BlockFactory[str](data_to_block_type_map)
     maze_factory = MazeFactory(block_factory)
     maze = Maze(maze_factory)
+
+    # Create gui backend interface.
     gui_backend_interface = GUIBackendInterface(
         get_maze_file_names,
         maze,
     )
+
+    # Create solver for maze.
     maze_solver = functools.partial(
         bfs_search,
         gui_hook_visited_block_index=gui_backend_interface.set_new_visited_blocks
     )
+
+    # Add solver to maze.
     maze.solver = maze_solver
+
+    # Create application and run.
     gui = GUIApplication(gui_backend_interface)
     gui.run()
 
