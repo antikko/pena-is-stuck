@@ -3,9 +3,11 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 
+from gui.gui_backend_interface import GUIBackendInterface
 from gui.layouts.layoutoptions import GUILayout
 
 T = TypeVar("T")
+ParamT = TypeVar("ParamT")
 
 
 @dataclass
@@ -16,10 +18,21 @@ class LayoutReturnValue(Generic[T]):
     value: T | None = None
 
 
-class AbstractLayout(ABC):  # pylint: disable=too-few-public-methods
-    """Abstract representation of a layout."""
+@dataclass
+class LayoutParam(Generic[ParamT]):
+    """A class representing layout parameter."""
+
+    value: ParamT | None = None
+
+
+class BaseLayout(ABC):  # pylint: disable=too-few-public-methods
+    """Base representation of a layout."""
+
+    def __init__(self, gui_backend_interface: GUIBackendInterface) -> None:
+        """Initialize BaseLayout."""
+        self._gui_backend_interface = gui_backend_interface
 
     @abstractmethod
-    def run(self) -> LayoutReturnValue[Any]:
+    def run(self, param: LayoutParam[Any] | None) -> LayoutReturnValue[Any]:
         """Run layout."""
         raise NotImplementedError

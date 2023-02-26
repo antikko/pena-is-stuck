@@ -4,8 +4,7 @@ from typing import Any
 
 import PySimpleGUI as sg
 
-from fileparsing import get_maze_file_names
-from gui.layouts.general import AbstractLayout, LayoutReturnValue
+from gui.layouts.general import BaseLayout, LayoutParam, LayoutReturnValue
 from gui.layouts.layoutoptions import GUILayout
 
 
@@ -23,15 +22,10 @@ class _Keys(StrEnum):
     MENU_TEXT = "menu_text"
 
 
-class Menu(AbstractLayout):  # pylint: disable=too-few-public-methods
+class Menu(BaseLayout):  # pylint: disable=too-few-public-methods
     """Menu layout."""
 
-    def __init__(self):
-        """Initialize menu layout factory."""
-        super().__init__()
-        self._maze_names = get_maze_file_names()
-
-    def run(self) -> LayoutReturnValue[str]:
+    def run(self, _: LayoutParam[None] | None) -> LayoutReturnValue[str]:
         """Run menu."""
         layout = self._create_layout()
         window = sg.Window("Pena Stuck In a Maze - Menu", layout)
@@ -41,7 +35,10 @@ class Menu(AbstractLayout):  # pylint: disable=too-few-public-methods
                 window.close()
                 return LayoutReturnValue(GUILayout.CLOSE)
             if event == _Event.OPEN_MAZE:
-                if (selection := values[_Keys.MAZE_SELECTION]) not in self._maze_names:
+                if (
+                    (selection := values[_Keys.MAZE_SELECTION])
+                    not in self._gui_backend_interface.get_available_mazes_names()
+                ):
                     continue
                 window.close()
                 return LayoutReturnValue(
@@ -57,7 +54,9 @@ class Menu(AbstractLayout):  # pylint: disable=too-few-public-methods
         """
         return [
             [sg.Text("Select Maze", key=_Keys.MENU_TEXT)],
-            [sg.DropDown(self._maze_names, key=_Keys.MAZE_SELECTION)],
+            [sg.DropDown(
+                self._gui_backend_interface.get_available_mazes_names(), key=_Keys.MAZE_SELECTION
+            )],
             [sg.Button(_Event.OPEN_MAZE)],
             [sg.Button(_Event.EXIT)],
         ]
