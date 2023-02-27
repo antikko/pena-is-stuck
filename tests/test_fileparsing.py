@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 import pytest
 
-from fileparsing import MazeFileContext
+from fileparsing import get_maze_file_names, MazeFileContext
 
 _MAZE_FILE_DATA: list[str] = [
     "#######E########E####################",
@@ -46,3 +46,9 @@ def test_file_not_found_raises() -> None:
         with pytest.raises(FileNotFoundError):
             with MazeFileContext(file_name):
                 pass
+
+
+def test_get_maze_files() -> None:
+    """Test maze files can be found in data dir."""
+    with patch("fileparsing._DATA_DIR", os.path.join("tests", "data")):
+        assert ["maze-task-first.txt"] == get_maze_file_names()
