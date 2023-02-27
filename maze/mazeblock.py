@@ -103,6 +103,9 @@ class BlockFactory(Generic[BlockDataT]):  # pylint: disable=too-few-public-metho
 
     def create_block(self, data: BlockDataT, index: BlockIndex) -> MazeBlock:
         """Create a maze block from data."""
+        if data not in self._data_to_block_type_map:
+            raise KeyError(f"Invalid block data '{data}'. Block could not be created.")
+
         return MazeBlock(
             type_=self._data_to_block_type_map[data],
             index=index,
