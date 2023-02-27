@@ -39,6 +39,10 @@ Evaluation criteria:
 4. Run `pip install -r requirements.txt` to install the needed dependencies.
 5. Run `python main.py` to run the program.
 
+If you want to provide your own input file for another maze, put it in the "data" folder.
+
+In order to run the unit tests, run: `pytest tests/` or `pytest tests\` depending on your OS.
+
 
 ## Architecture
 
