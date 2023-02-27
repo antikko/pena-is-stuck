@@ -1,6 +1,6 @@
 # Pena Got Stuck in a Maze
 
-###This repository contains a Python demonstration/solution for the following task:
+### This repository contains a Python demonstration/solution for the following task:
 
 Pentti got stuck in a maze.
 
