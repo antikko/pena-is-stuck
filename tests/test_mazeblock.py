@@ -49,7 +49,7 @@ def test_maze_block_returns_correct_next_blocks() -> None:
     block4.left = block1
     block1.below = block5
     block5.above = block1
-    assert block1.next_available_blocks() == [block2, block3]
+    assert block1.next_available_blocks() == [block2, block3, block5]
 
 
 def test_maze_block_returns_correct_next_blocks_when_some_visited() -> None:

@@ -51,4 +51,4 @@ def test_file_not_found_raises() -> None:
 def test_get_maze_files() -> None:
     """Test maze files can be found in data dir."""
     with patch("fileparsing._DATA_DIR", os.path.join("tests", "data")):
-        assert ["maze-task-first.txt"] == get_maze_file_names()
+        assert ["dummy_maze.txt", "maze-task-first.txt"] == get_maze_file_names()
